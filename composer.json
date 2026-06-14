@@ -1,0 +1,51 @@
+{
+    "name": "romanstruk/solr-scout-engine",
+    "description": "Laravel Solr Scout Engine (Solarium driver for Laravel Scout)",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roman",
+            "email": "romanuch4@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "ext-zip": "*",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "laravel/scout": "^10.0|^11.0",
+        "solarium/solarium": "^6.2"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0",
+        "phpunit/phpunit": "^10.0",
+        "mockery/mockery": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "RomanStruk\\SolrScoutEngine\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RomanStruk\\SolrScoutEngine\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "RomanStruk\\SolrScoutEngine\\SolrServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "test": "phpunit --colors=always",
+        "test-f": "phpunit --colors=always --filter"
+    }
+}
