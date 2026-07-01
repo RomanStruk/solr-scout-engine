@@ -2,11 +2,6 @@
 
 Laravel Scout driver for Apache Solr, built on top of [Solarium](https://github.com/solariumphp/solarium).
 
-Extracted from a battle-tested implementation used across several production
-catalogs. The package ships the engine, a thin Scout `Builder` and configuration;
-your application keeps full control over the Solr query through the Scout search
-callback.
-
 ## Requirements
 
 - PHP `^8.2`
@@ -28,7 +23,7 @@ SCOUT_DRIVER=solr
 SOLR_HOST=127.0.0.1
 SOLR_PORT=8983
 SOLR_PATH=/
-SOLR_CONFIGSET=my_configset   # used by solr:index / createIndex
+SOLR_CONFIGSET="my_configset"   # used by solr:index / createIndex
 ```
 
 The Solr **core** is resolved per model from `searchableAs()`.
@@ -110,7 +105,7 @@ $facets = collect()->getFacetSet(); // normalised array (supports pivot facets)
 The package works with both Solr modes. Pick one in `.env`:
 
 ```dotenv
-SOLR_MODE=core    # standalone: indexes are cores (CoreAdmin API)
+SOLR_MODE="core"    # standalone: indexes are cores (CoreAdmin API)
 # SOLR_MODE=cloud # SolrCloud: indexes are collections (Collections API)
 ```
 
@@ -177,19 +172,4 @@ composer install
 composer test
 ```
 
-Tests run against an in-memory Solarium adapter (`tests/Fakes/FakeAdapter`) — no
-live Solr instance required.
-
-## Migrating an existing project
-
-Replace a hand-rolled `app/Solr/*` driver with this package:
-
-1. `composer require romanstruk/solr-scout-engine`.
-2. Delete `app/Solr/{SolrEngine,Builder,BasicDebug}.php` and the Solr
-   registration in your local service provider.
-3. Move `config/solarium.php` settings into the published `config/solr.php`
-   (`endpoint`, `preset`).
-4. Update `use App\Solr\Builder` references to
-   `RomanStruk\SolrScoutEngine\Builder`.
-5. Existing search callbacks keep working unchanged — they run through
-   `$builder->callback`.
+Tests run against an in-memory Solarium adapter (`tests/Fakes/FakeAdapter`) — no live Solr instance required.

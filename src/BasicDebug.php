@@ -42,6 +42,11 @@ class BasicDebug extends AbstractPlugin
     {
         $this->timer('preExecuteRequest');
 
+        if ($event->getRequest()->getMethod() === 'POST') {
+            $this->output[] = 'Raw data: '.urldecode($event->getRequest()->getRawData());
+            return;
+        }
+
         $this->output[] = 'Request URI: '.urldecode($event->getRequest()->getUri());
     }
 
