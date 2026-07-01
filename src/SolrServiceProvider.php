@@ -21,17 +21,21 @@ class SolrServiceProvider extends ServiceProvider
         // Scout should build queries through our Builder (overrides getTotalCount).
         $this->app->bind(ScoutBuilder::class, Builder::class);
 
-        $this->app->singleton(BasicDebug::class, fn () => new BasicDebug());
+        $this->app->scoped(BasicDebug::class, fn () => new BasicDebug());
 
         // A fresh Solarium client per core (resolved with makeWith(['core' => ...])).
         $this->app->bind(Client::class, function ($app, array $data) {
-            $adapter = new Curl(['timeout' => (int) config('solr.timeout', 600)]);
 
-            $config = ['endpoint' => config('solr.endpoint')];
+            $adapter = new Curl(['timeout' => (int) $app['config']->get('solr.timeout', 600)]);
+
+            $config = ['endpoint' => $app['config']->get('solr.endpoint')];
             $config['endpoint']['localhost']['core'] = $data['core'];
 
             $client = new Client($adapter, new EventDispatcher(), $config);
-            $client->registerPlugin('debugger', $app[BasicDebug::class]);
+
+            if ($app['config']->get('solr.debug', false)) {
+                $client->registerPlugin('debugger', $app[BasicDebug::class]);
+            }
 
             return $client;
         });
