@@ -457,7 +457,7 @@ class SolrEngine extends Engine
 
         foreach ($builder->whereIns as $field => $values) {
             $query->addFilterQuery(
-                (new FilterQuery())->setKey($field)->setQuery($field.':'.implode(',', $values))->addTag('tag_'.$field)
+                (new FilterQuery())->setKey($field)->setQuery($field.':('.implode(' OR ', $values).')')->addTag('tag_'.$field)
             );
         }
 
